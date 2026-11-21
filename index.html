@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1c3044">
+<meta name="description" content="Play three planning decisions and explore the historical evidence behind Shenzhen’s land reforms, 1980–1998.">
+<title>BUILD SHENZHEN</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="experience.css">
+<link rel="stylesheet" href="runner.css">
+<script src="art.js" defer></script>
+<script src="language.js" defer></script>
+<script src="audio.js" defer></script>
+<script src="sprites.js" defer></script>
+<script src="dialogue.js" defer></script>
+<script src="map.js" defer></script>
+<script src="runner.js" defer></script>
+<script src="game.js" defer></script>
+<script src="tour.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#" data-go="home" data-label="homeLabel"><span class="brand-icon" aria-hidden="true">▟</span> BUILD<span>SHENZHEN</span></a>
+  <div class="top-tools">
+    <nav data-label="navLabel">
+      <button type="button" data-go="play" data-text="play"></button>
+      <button type="button" data-go="archive" data-text="map"></button>
+      <button type="button" data-go="run" data-text="run"></button>
+      <button type="button" data-go="sources" data-text="sources"></button>
+    </nav>
+    <div class="language" role="group" data-label="language"><button type="button" lang="en" aria-label="English" data-lang="en" aria-pressed="true">EN</button><button type="button" lang="zh-CN" aria-label="简体中文" data-lang="zh" aria-pressed="false">中文</button></div>
+    <details id="sound-settings">
+      <summary><span aria-hidden="true">♫</span><span data-text="audioTitle"></span></summary>
+      <div class="sound-panel">
+        <button type="button" data-audio-channel="music" aria-pressed="true"><span data-text="audioMusic"></span><span class="sound-switch" aria-hidden="true"></span></button>
+        <button type="button" data-audio-channel="effects" aria-pressed="true"><span data-text="audioEffects"></span><span class="sound-switch" aria-hidden="true"></span></button>
+        <p id="audio-status"></p>
+      </div>
+    </details>
+  </div>
+</header>
+<main id="main">
+<section id="home" class="screen">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="date-label"><span aria-hidden="true"></span><strong data-text="location"></strong><b aria-hidden="true">·</b> 1980–1998</div>
+      <h1 tabindex="-1">BUILD<br><em>SHENZHEN</em></h1>
+      <p class="motto" data-text="economic"></p>
+      <p class="lede" data-text="lede"></p>
+      <div class="actions"><button class="primary" data-go="play"><span aria-hidden="true" class="play-icon"></span><span data-text="start"></span></button><button class="secondary" data-text="guideJump" id="guide-jump"></button></div>
+    </div>
+    <figure class="hero-scene">
+      <canvas id="hero-art" width="480" height="240" aria-hidden="true"></canvas>
+      <figcaption class="scene-caption" data-text="heroCaption"></figcaption>
+    </figure>
+  </div>
+  <section class="journey" id="journey" aria-labelledby="journey-title">
+    <div class="journey-heading"><h2 id="journey-title" tabindex="-1" data-text="guide"></h2><p data-text="guideAbout"></p></div>
+    <div class="journey-cards">
+      <button class="journey-card" type="button" data-go="play"><span class="journey-number">01</span><span><strong data-text="play"></strong><small data-text="guideHistory"></small></span></button>
+      <button class="journey-card" type="button" data-go="archive"><span class="journey-number">02</span><span><strong data-text="map"></strong><small data-text="guideMap"></small></span></button>
+      <button class="journey-card" type="button" data-go="run"><span class="journey-number">03</span><span><strong data-text="run"></strong><small data-text="guideRun"></small></span></button>
+    </div>
+  </section>
+</section>
+<section id="play" class="screen inner" hidden></section>
+<section id="run" class="screen inner" hidden>
+  <div class="section-head runner-heading"><h1 tabindex="-1" data-text="runTitle"></h1><p data-text="runIntro"></p></div>
+  <details class="runner-avatar" open>
+    <summary data-text="avatar"></summary>
+    <div class="avatar-layout">
+      <div class="avatar-preview"><canvas id="avatar-preview" width="28" height="28" role="img" data-label="avatarPreview"></canvas></div>
+      <div class="avatar-options" id="avatar-options"></div>
+    </div>
+  </details>
+  <div class="runner-modes" role="group" data-label="selectMode">
+    <button type="button" data-run-mode="level" aria-pressed="true"><strong data-text="modeLevel"></strong><small data-text="modeLevelAbout"></small></button>
+    <button type="button" data-run-mode="timed" aria-pressed="false"><strong data-text="modeTimed"></strong><small data-text="modeTimedAbout"></small></button>
+    <button type="button" data-run-mode="endless" aria-pressed="false"><strong data-text="modeEndless"></strong><small data-text="modeEndlessAbout"></small></button>
+  </div>
+  <div class="runner-frame">
+    <div class="runner-hud">
+      <div class="runner-stage"><span id="runner-phase"></span><strong id="runner-place"></strong></div>
+      <div class="runner-treasury"><span class="hud-coin" aria-hidden="true"></span><div><span data-text="coins"></span><strong id="runner-coins">0 / 6</strong></div></div>
+      <div id="runner-clock" class="runner-clock" hidden><span id="runner-clock-label"></span><strong id="runner-clock-value"></strong></div>
+      <div class="runner-speed"><span data-text="speed"></span><strong id="runner-speed"></strong></div>
+    </div>
+    <div class="runner-field" id="runner-field">
+      <canvas id="runner-art" width="384" height="196" aria-hidden="true"></canvas>
+      <div class="runner-overlay" id="runner-overlay">
+        <div id="runner-overlay-copy"></div>
+        <div class="runner-overlay-actions" id="runner-overlay-actions"></div>
+      </div>
+      <p id="runner-event" class="runner-event" role="status"></p>
+    </div>
+    <div class="runner-controls">
+      <p data-text="runHelp" id="runner-help"></p>
+      <div><button class="secondary" type="button" data-run-action="finish" data-text="endRound" hidden></button><button class="secondary" type="button" data-run-action="pause" data-text="pause" disabled></button><button class="primary" type="button" data-run-action="jump" data-text="jump" disabled></button></div>
+    </div>
+  </div>
+  <ol class="runner-ledger" id="runner-ledger" data-label="ledger"></ol>
+  <p class="runner-disclaimer" data-text="runModel"></p>
+</section>
+<section id="archive" class="screen inner" hidden>
+  <div class="section-head"><p class="eyebrow" data-text="archiveDates"></p><h1 tabindex="-1" data-text="archive"></h1><p data-text="archiveAbout"></p><button class="text-action" type="button" data-go="run" data-text="bridgeAction"></button></div>
+  <div class="archive-grid">
+    <div class="map-side">
+      <div class="map-box" id="map-view" tabindex="0" role="region" data-label="mapViewport" aria-describedby="map-caption">
+        <div class="map-world" id="map-world">
+          <canvas id="map-art" width="420" height="306" aria-hidden="true"></canvas>
+          <span class="map-label north" aria-hidden="true">N ↑</span>
+          <span class="map-label shenzhen" aria-hidden="true" data-text="shenzhen"></span>
+          <span class="map-label hk" aria-hidden="true" data-text="hongKong"></span>
+          <span class="map-label bay" aria-hidden="true" data-text="bay"></span>
+          <div id="pins" data-label="mapStops"></div>
+        </div>
+        <div class="map-controls" role="group" data-label="mapControls">
+          <button type="button" data-map-action="out" data-label="zoomOut">−</button>
+          <output id="map-scale" data-label="zoomLevel">100%</output>
+          <button type="button" data-map-action="in" data-label="zoomIn">+</button>
+          <button type="button" data-map-action="reset" data-text="reset" data-label="resetMap"></button>
+        </div>
+      </div>
+      <p class="map-caption" id="map-caption" data-text="mapHelp"></p>
+      <div class="timeline" id="timeline" data-label="timeline"></div>
+    </div>
+    <article id="record" class="record" data-label="selectedRecord"></article>
+  </div>
+  <div class="takeaway"><h2 data-text="argumentTitle"></h2><p data-text="argumentBody"></p>
+  <div class="actions"><button class="secondary" data-go="sources" data-text="viewSources"></button></div></div>
+  <section class="archive-bridge" aria-labelledby="bridge-title"><div><h2 id="bridge-title" data-text="bridgeTitle"></h2><p data-text="bridgeBody"></p></div><button class="primary" type="button" data-go="run" data-text="bridgeAction"></button></section>
+</section>
+<section id="sources" class="screen inner sources" hidden></section>
+</main>
+
+<div id="tour" hidden>
+  <div id="tour-spotlight" aria-hidden="true"></div>
+  <section id="tour-card" role="dialog" aria-label="Welcome tour" aria-describedby="tour-copy">
+    <p id="tour-step"></p>
+    <h2 id="tour-title"></h2>
+    <p id="tour-copy"></p>
+    <div class="tour-actions"><button type="button" id="tour-skip" class="secondary" data-text="tourSkip"></button><button type="button" id="tour-next" class="primary"></button></div>
+  </section>
+</div>
+</body>
+</html>
